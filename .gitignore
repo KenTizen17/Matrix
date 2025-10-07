@@ -1,5 +1,7 @@
 # dependencies (bun install)
+.node_modules/*
 node_modules
+.node_modules
 
 # output
 out
@@ -10,6 +12,9 @@ dist
 coverage
 *.lcov
 
+# History
+.history
+.history/*
 # logs
 logs
 _.log
