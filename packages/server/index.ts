@@ -4,7 +4,6 @@ import type { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { PrismaClient } from "@prisma/client";
 import * as z from "zod";
-import { maximum, minimum } from 'zod/mini';
 
 dotenv.config();
 
@@ -116,6 +115,13 @@ app.post('/api/chat', async (req: Request, res: Response) => {
             conversationId 
         });
     } catch (error) {
+        if (error instanceof OpenAI.APIError) {
+        console.error("API Error:", error.status, error.message);
+        return res.status(error.status || 500).json({ 
+            error: "Failed to communicate with the API",
+            details: error.message 
+        });
+    }
         console.error("Error handling /api/chat:", error);
         res.status(500).json({ error: "Internal server error" });
     }
