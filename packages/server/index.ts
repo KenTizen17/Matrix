@@ -3,6 +3,7 @@ import express from 'express';
 import type { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { PrismaClient } from "@prisma/client";
+import * as z from "zod";
 
 dotenv.config();
 
@@ -17,10 +18,39 @@ const prisma = new PrismaClient();
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
-app.post('/api/chat', async (req: Request, res: Response) => {
-    
-        const { prompt, conversationId } = req.body;
+const chatSchema = z.object({
+    prompt: z.string().trim().min(1, "Prompt is required").max(100, "Prompt is too long"),
+    conversationId: z.string().min(1, "Conversation ID is required"),
+});
 
+app.post('/api/chat', async (req: Request, res: Response) => {
+
+    // Validation des données d'entrée
+    const parseResult = chatSchema.safeParse(req.body);
+    if (!parseResult.success) {
+        // On récupère seulement la première erreur pour simplifier
+        const firstError = parseResult.error.issues[0];
+
+        const info: Record<string, any> = {
+            message: firstError?.message,
+            minimum: undefined,
+            maximum: undefined,
+        };
+
+        if ("minimum" in firstError) info.minimum = firstError.minimum;
+        if ("maximum" in firstError) info.maximum = firstError.maximum;
+
+        return res.status(400).json({
+            error: "Invalid request body",
+            details: info.message,
+            maximum: info.maximum,
+            minimum: info.minimum,
+        });
+    }
+    
+    const { prompt, conversationId } = req.body;
+
+    try {
         // On verifie que l'ID de la conv existe; si oui on fait rien
         await prisma.conversation.upsert({
             where: { conversationId },
@@ -54,7 +84,6 @@ app.post('/api/chat', async (req: Request, res: Response) => {
 
         console.log("Full prompt:", fullPrompt); // Affichage pour debug 
 
-    
         const response = await client.responses.create({
             model: "openai/gpt-5-nano",
             input: fullPrompt,
@@ -85,8 +114,17 @@ app.post('/api/chat', async (req: Request, res: Response) => {
             message: outputText,
             conversationId 
         });
-
-    
+    } catch (error) {
+        if (error instanceof OpenAI.APIError) {
+        console.error("API Error:", error.status, error.message);
+        return res.status(error.status || 500).json({ 
+            error: "Failed to communicate with the API",
+            details: error.message 
+        });
+    }
+        console.error("Error handling /api/chat:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 app.listen(port, () => {
