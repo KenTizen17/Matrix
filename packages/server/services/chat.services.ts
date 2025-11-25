@@ -1,5 +1,8 @@
 import { conversationRepository } from '../repositories/conversation.repository';
 import OpenAI from 'openai';
+import fs from 'fs';
+import path from 'path';
+import template from '../prompt/chatbot.txt';
 
 const client = new OpenAI({
   apiKey: process.env.ORANGEAI_API_KEY!,
@@ -16,6 +19,10 @@ export class ChatService {
 
     const fullPrompt = this.buildPrompt(prompt, history);
 
+    // Instructions du chatbot ( pas encore défini)
+    const n7info = fs.readFileSync(path.join(__dirname, '..','prompt', 'enseeiht.md' ), 'utf-8');
+    const instructions = template.replace('{{n7info}}', 'n7info');
+
     console.log("Full prompt:", fullPrompt);
 
     // Generate AI response
@@ -26,6 +33,7 @@ export class ChatService {
     });
 
     const outputText = response.output_text;
+
 
 
     await conversationRepository.saveMessages([
