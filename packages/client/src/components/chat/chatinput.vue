@@ -1,8 +1,8 @@
 <template>
     <form @submit.prevent="submit"
           :class="hasConversation
-                ? ''
-                : 'w-full max-w-2xl flex items-end gap-2 pt-4'">
+                ? 'w-full max-w-2xl flex-1 items-end gap-2 pt-4'
+                : 'w-full max-w-2xl flex-1 items-end gap-2 pt-4'">
       <div class="relative flex-1 max-w-2xl border rounded-3xl px-4 py-2"
            :class="darkMode ? 'bg-[#1E1F20] border-gray-700' : 'bg-white border-gray-300'">
   

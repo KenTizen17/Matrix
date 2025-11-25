@@ -1,9 +1,9 @@
 <template>
   <div :class="darkMode ? 'dark' : ''"
-       class="w-full h-full flex flex-col transition-colors duration-300">
+       class="w-full h-full flex flex-col transition-colors duration-300 bg-white dark:bg-[#121212]">
 
-    <header class="w-full flex justify-between p-4">
-      <div class="font-semibold tracking-wide"
+    <header class="w-full flex justify-between items-center p-4 border-b dark:border-gray-800 shrink-0 z-10">
+      <div class="font-semibold tracking-wide text-lg"
            :class="darkMode ? 'text-gray-200' : 'text-gray-700'">
         Matrix Chatbot
       </div>
@@ -13,7 +13,7 @@
                 :class="darkMode
                   ? 'bg-[#1E1F20] text-gray-200 border-gray-700 hover:bg-[#2A2B2C]'
                   : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-100'">
-          <i class="pi pi-plus-circle"></i> Nouvelle conversation
+          <i class="pi pi-plus-circle"></i> <span class="hidden sm:inline">Nouvelle conversation</span>
         </button>
 
         <button @click="toggleDark"
@@ -26,57 +26,55 @@
       </div>
     </header>
 
-    <div 
-      id="content"
-      class="h-full w-full flex flex-col justify-center items-center"
-      :class="conversation.length > 0 ? 'flex-1' : ''"
-      >
+<div class="flex-1 w-full flex justify-center min-h-0">
 
-      <!-- No conversation -->
-      <div 
-        v-if="conversation.length === 0"
-        id="noconv" 
-        class="flex flex-col">
+  <!-- Conteneur des messages et état vide -->
+  <div class="w-full max-w-2xl h-full flex flex-col">
 
-        <h2 class="text-lg font-normal mb-6 text-center"
-            :class="darkMode ? 'text-gray-300' : 'text-gray-700'">
+    <div class="flex-1 flex flex-col overflow-y-auto">
+
+      <!-- Si la conversation est vide, on centre le contenu -->
+      <div v-if="conversation.length === 0"
+           class="flex-1 flex flex-col justify-center items-center p-4">
+        <h2 :class="darkMode ? 'text-gray-300' : 'text-gray-700'"
+            class="text-2xl font-medium text-center mb-4">
           Comment puis-je t'aider aujourd’hui mon chef ?
         </h2>
 
+        <!-- Input centré -->
         <chatinput
           :darkMode="darkMode"
-          :hasConversation="conversation.length > 0"
+          :hasConversation="false"
           @submit="handleSubmit"
         />
-
       </div>
 
-      <!-- With conversation -->
-      <div 
-            v-if="conversation.length > 0"
-        id="noconv" 
-        class="flex flex-col">
-
-        <div class="flex-1">
-          <chatmessages
-            v-if="conversation.length > 0"
-            :messages="conversation"
-            :darkMode="darkMode"
-            :isTyping="isTyping"
-          />
-        </div>
-
-        <div class="w-full">
-          <chatinput
-            :darkMode="darkMode"
-            :hasConversation="conversation.length > 0"
-            @submit="handleSubmit"
-          />
-        </div>
-
+      <!-- Si la conversation existe, on montre les messages -->
+      <div v-else class="flex-1 flex flex-col">
+        <chatmessages
+          :messages="conversation"
+          :darkMode="darkMode"
+          :isTyping="isTyping"
+        />
       </div>
 
     </div>
+
+    <!-- Input en bas uniquement si conversation existe -->
+    <div v-if="conversation.length > 0"
+         class="w-full flex justify-center p-4 shrink-0 bg-white dark:bg-[#121212]">
+      <chatinput
+        :darkMode="darkMode"
+        :hasConversation="true"
+        @submit="handleSubmit"
+      />
+    </div>
+
+  </div>
+</div>
+
+
+   
 
   </div>
 </template>
@@ -89,7 +87,6 @@ import chatmessages from "./chatmessages.vue";
 import chatinput from "./chatinput.vue";
 
 const md = new MarkdownIt();
-
 const darkMode = ref(false);
 const conversation = reactive<{ role: "user" | "assistant"; text: string; html?: string }[]>([]);
 const isTyping = ref(false);
@@ -100,7 +97,6 @@ const toggleDark = () => {
   document.documentElement.classList.toggle('dark', darkMode.value);
 };
 
-
 const handleSubmit = async (prompt: string) => {
   if (!prompt.trim()) return;
 
@@ -108,7 +104,7 @@ const handleSubmit = async (prompt: string) => {
   isTyping.value = true;
 
   try {
-    const { data } = await axios.post("http://localhost:3000/api/chat", {
+    const { data } = await axios.post("/api/chat", {
       prompt,
       conversationId: conversationId.value
     });
@@ -131,8 +127,6 @@ const handleSubmit = async (prompt: string) => {
     isTyping.value = false;
   }
 };
-
-
 
 const newConversation = () => {
   conversation.splice(0, conversation.length);

@@ -60,7 +60,12 @@ html.dark body {
   color: var(--foreground-dark);
 }
 
-
+#app {
+  width: 100%;
+  height: 100%; /* Prend toute la hauteur du body /
+  text-align: center;
+  box-sizing: border-box; / Inclut le padding dans les dimensions */
+}
 
 a {
   font-weight: 500;

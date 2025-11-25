@@ -1,11 +1,10 @@
 <template>
   <div ref="container"
-       class="w-full max-w-2xl flex flex-col gap-2 p-4 overflow-y-auto"
-       :style="{ maxHeight: 'calc(100vh - 120px)', paddingBottom: '80px' }">
+       class="relative max-w-2xl flex flex-col gap-4 p-4 h-full scroll-smooth">
 
     <template v-for="(msg, i) in messages" :key="i">
       <p v-if="msg.role === 'user'"
-         class="ml-auto px-4 py-2 rounded-xl max-w-[75%] bg-blue-500 text-white">
+         class="ml-auto px-4 py-2 rounded-xl max-w-[75%] bg-blue-500 text-white shadow-sm">
         {{ msg.text }}
       </p>
 
