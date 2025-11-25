@@ -9,7 +9,7 @@
       </div>
       <div class="flex gap-4">
         <button @click="newConversation"
-                class="flex items-center gap-2 px-3 py-1 rounded-xl border shadow-sm text-sm transition-colors"
+                class="flex items-center gap-2 px-3 py-1 rounded-xl border shadow-sm text-sm transition-colors cursor-pointer"
                 :class="darkMode
                   ? 'bg-[#1E1F20] text-gray-200 border-gray-700 hover:bg-[#2A2B2C]'
                   : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-100'">
@@ -17,7 +17,7 @@
         </button>
 
         <button @click="toggleDark"
-                class="px-3 py-1 rounded-xl border shadow-sm text-sm transition-colors"
+                class="px-3 py-1 rounded-xl border shadow-sm text-sm transition-colors cursor-pointer"
                 :class="darkMode
                   ? 'bg-[#1E1F20] text-gray-200 border-gray-700 hover:bg-[#2A2B2C]'
                   : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-100'">
@@ -26,16 +26,16 @@
       </div>
     </header>
 
-<div class="flex-1 w-full flex justify-center min-h-0">
+<div class="flex-1 w-full flex items-center min-h-0">
 
   <!-- Conteneur des messages et état vide -->
-  <div class="w-full max-w-2xl h-full flex flex-col">
+  <div class="w-full max-w-6xl h-full justify-center flex flex-col mx-auto">
 
-    <div class="flex-1 flex flex-col overflow-y-auto">
+    <div class="flex-1 w-full max-w-6xl mx-auto flex flex-col overflow-y-auto">
 
       <!-- Si la conversation est vide, on centre le contenu -->
       <div v-if="conversation.length === 0"
-           class="flex-1 flex flex-col justify-center items-center p-4">
+           class="flex-1 flex flex-col justify-center p-4">
         <h2 :class="darkMode ? 'text-gray-300' : 'text-gray-700'"
             class="text-2xl font-medium text-center mb-4">
           Comment puis-je t'aider aujourd’hui mon chef ?
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Si la conversation existe, on montre les messages -->
-      <div v-else class="flex-1 flex flex-col">
+      <div v-else class="w-full max-w-4xl mx-auto h-full justify-center flex flex-col">
         <chatmessages
           :messages="conversation"
           :darkMode="darkMode"
@@ -61,14 +61,20 @@
     </div>
 
     <!-- Input en bas uniquement si conversation existe -->
-    <div v-if="conversation.length > 0"
-         class="w-full flex justify-center p-4 shrink-0 bg-white dark:bg-[#121212]">
-      <chatinput
-        :darkMode="darkMode"
-        :hasConversation="true"
-        @submit="handleSubmit"
-      />
-    </div>
+<!-- Input en bas uniquement si conversation existe -->
+<div v-if="conversation.length > 0"
+     class="w-full flex flex-col justify-center items-center p-4 shrink-0 transition-colors duration-300 gap-2">
+  
+  <chatinput
+    :darkMode="darkMode"
+    :hasConversation="true"
+    @submit="handleSubmit"
+  />
+
+  <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
+    Réponse générées par IA, faites attention ! 
+  </p>
+</div>
 
   </div>
 </div>
