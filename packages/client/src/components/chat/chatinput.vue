@@ -14,7 +14,7 @@
           @keydown="onKey"
           class="w-full min-h-[40px] max-h-[200px] resize-none overflow-hidden bg-transparent focus:outline-none pr-12"
           rows="1"
-        />
+        ></textarea>
   
         <button type="submit"
                 :disabled="!localMsg.trim()"

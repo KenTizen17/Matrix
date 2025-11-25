@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, nextTick } from "vue";
+import { ref, reactive} from "vue";
 import axios from "axios";
 import MarkdownIt from "markdown-it";
 import chatmessages from "./chatmessages.vue";
@@ -66,6 +66,8 @@ const toggleDark = () => {
 
 
 const handleSubmit = async (prompt: string) => {
+  if (!prompt.trim()) return;
+
   conversation.push({ role: "user", text: prompt });
   isTyping.value = true;
 
@@ -80,10 +82,21 @@ const handleSubmit = async (prompt: string) => {
       text: data.message,
       html: md.render(data.message)
     });
+
+  } catch (err: any) {
+    console.error("API error:", err);
+    conversation.push({
+      role: "assistant",
+      text: " Une erreur est survenue lors de la communication avec le serveur.",
+      html: " Une erreur est survenue lors de la communication avec le serveur."
+    });
+
   } finally {
     isTyping.value = false;
   }
 };
+
+
 
 const newConversation = () => {
   conversation.splice(0, conversation.length);

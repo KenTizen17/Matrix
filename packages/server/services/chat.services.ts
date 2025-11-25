@@ -27,7 +27,7 @@ export class ChatService {
 
     // Generate AI response
     const response = await client.responses.create({
-      model: "openai/gpt-5-nano",
+      model: "gpt-4.1-mini",
       input: fullPrompt,
       max_output_tokens: 50000,
     });
