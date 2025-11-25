@@ -93,12 +93,6 @@ h1 {
   padding: 2em;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -192,4 +186,20 @@ h1 {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* IE/Edge (mode legacy) */
+* {
+  -ms-overflow-style: none;
 }

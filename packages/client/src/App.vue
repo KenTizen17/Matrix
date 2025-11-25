@@ -4,7 +4,7 @@ import Chatbot from './components/chat/chatbot.vue';
 </script>
 
 <template>
-  <div class="p-4">
+  <div class="w-screen h-screen">
     <Chatbot />
   </div>
 </template>

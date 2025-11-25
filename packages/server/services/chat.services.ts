@@ -6,7 +6,7 @@ import template from '../prompt/chatbot.txt';
 
 const client = new OpenAI({
   apiKey: process.env.ORANGEAI_API_KEY!,
-  baseURL: "https://management.llmproxy.ai.orange"
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
 export class ChatService {
@@ -25,15 +25,33 @@ export class ChatService {
 
     console.log("Full prompt:", fullPrompt);
 
-    // Generate AI response
+    /*
     const response = await client.responses.create({
-      model: "gpt-4.1-mini",
+      model: "gemini-2.5-flash",
       input: fullPrompt,
       max_output_tokens: 50000,
     });
 
-    const outputText = response.output_text;
+    const outputText = response.output_text;*/
 
+    // Generate AI response
+    const response = await client.chat.completions.create({
+      model: "gemini-2.0-flash",   // modèle Gemini en version OpenAI API
+      messages: [
+        {
+          role: "system",
+          content: instructions // si tu veux injecter ton prompt system
+        },
+        {
+          role: "user",
+          content: fullPrompt
+        }
+      ],
+      max_tokens: 50000
+    });
+
+  // Le texte généré
+  const outputText = response.choices[0].message.content;
 
 
     await conversationRepository.saveMessages([
