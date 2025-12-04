@@ -1,27 +1,32 @@
 # Matrix
 
-Matrix is an **open-source chatbot** built for **ENSEEIHT INP**.  
+Matrix is an **open-source chatbot** built for **ENSEEIHT INP**.
 
-The project was created because a previous service promised a chatbot but never delivered. To fill that gap, we decided to **build our own chatbot from scratch**!  
+The project was created because a previous service promised a chatbot but never delivered. To fill that gap, we decided to **build our own chatbot from scratch**!
 
-Matrix supports:  
-- **Real-time conversation streaming**   
-- **Dark mode and responsive UI**  
-- **Markdown formatting** for messages  
+Matrix supports:
 
----
+- **Real-time conversation streaming**
+- **Dark mode and responsive UI**
+- **Markdown formatting** for messages
+
+## ![alt text](<Capture d’écran du 2025-12-04 13-10-45.png>)
 
 ## 🛠️ Stack
 
-**Backend:**  
-- Node.js + **Express**  
-- **Prisma** for database management  
+**Backend:**
 
-**Frontend:**  
-- **Vue 3** for a reactive UI  
+- Node.js + **Express**
+- **Prisma** for database management
 
-**Package Manager:**  
-- **Bun** (fast and modern)  
+**Frontend:**
+
+- **Vue 3** for a reactive UI
+
+**Package Manager:**
+
+- **Bun** (fast and modern)
+
 ---
 
 ## 💻 Getting Started (Development)
