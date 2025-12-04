@@ -5,7 +5,7 @@
     <header class="w-full flex justify-between items-center p-4 border-b dark:border-gray-800 shrink-0 z-10">
       <div class="font-semibold tracking-wide text-lg"
            :class="darkMode ? 'text-gray-200' : 'text-gray-700'">
-        Matrix Chatbot
+        Matrix 
       </div>
       <div class="flex gap-4">
         <button @click="newConversation"

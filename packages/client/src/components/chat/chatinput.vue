@@ -30,7 +30,7 @@
   <script setup lang="ts">
   import { ref } from "vue";
   import "primeicons/primeicons.css";
-  const props = defineProps<{ darkMode: boolean; hasConversation: boolean }>();
+  defineProps<{ darkMode: boolean; hasConversation: boolean }>();
   const emit = defineEmits(["submit"]);
   
   const localMsg = ref("");

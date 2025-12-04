@@ -1,27 +1,37 @@
-# ---- Build Stage ----
-    FROM oven/bun:alpine AS build
+# ---- Stage Build ----
+    FROM node:20-alpine AS build
+
     WORKDIR /app
     
-    # Copier uniquement les fichiers de dépendances pour le cache
-    COPY bun.lockb package.json ./
-    RUN bun install --frozen-lockfile
+    # Installer curl, bash et ca-certificates pour Bun
+    RUN apk add --no-cache curl bash ca-certificates
     
-    # Copier le reste du projet
+    # Installer Bun
+    RUN curl -fsSL https://bun.sh/install | bash
+    ENV PATH="/root/.bun/bin:$PATH"
+    
+    # Copier package.json et bun.lockb (si présent)
+    COPY package.json bun.lockb* ./
+    
+    # Installer les dépendances
+    RUN bun install
+    
+    # Copier le code source
     COPY . .
     
-    # Build Vite avec Bun
+    # Build Vite frontend
     RUN bun run build
     
-    # ---- Production Stage ----
-    FROM nginx:alpine
+    # ---- Stage Production ----
+    FROM nginx:alpine AS prod
     
-    # Supprimer la config par défaut
-    RUN rm /etc/nginx/conf.d/default.conf
-    COPY nginx.conf /etc/nginx/conf.d/default.conf
-    
-    # Copier le build Vite
+    # Copier le build frontend
     COPY --from=build /app/dist /usr/share/nginx/html
     
+    # Copier ton nginx.conf complet (avec events {} etc.)
+    COPY ./nginx.conf /etc/nginx/nginx.conf
+    
     EXPOSE 80
+    
     CMD ["nginx", "-g", "daemon off;"]
     

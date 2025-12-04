@@ -20,8 +20,8 @@ export class ChatService {
     const fullPrompt = this.buildPrompt(prompt, history);
 
     // Instructions du chatbot ( pas encore défini)
-    const n7info = fs.readFileSync(path.join(__dirname, '..','prompt', 'enseeiht.md' ), 'utf-8');
-    const instructions = template.replace('{{n7info}}', 'n7info');
+    const Enseeiht = fs.readFileSync(path.join(__dirname, '..','prompt', 'enseeiht.md' ), 'utf-8');
+    const instructions = template.replace('{{Enseeiht}}', Enseeiht);
 
     console.log("Full prompt:", fullPrompt);
 
@@ -39,7 +39,7 @@ export class ChatService {
       model: "gemini-2.0-flash",   // modèle Gemini en version OpenAI API
       messages: [
         {
-          role: "system",
+          role: "assistant",
           content: instructions // si tu veux injecter ton prompt system
         },
         {
@@ -51,7 +51,9 @@ export class ChatService {
     });
 
   // Le texte généré
-  const outputText = response.choices[0].message.content;
+  const outputText = response.choices?.[0]?.message?.content ?? "";
+
+
 
 
     await conversationRepository.saveMessages([
