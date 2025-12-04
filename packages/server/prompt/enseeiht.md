@@ -2,7 +2,7 @@
 
 ## 🏫 Présentation Générale
 
-- **Nom officiel** : École Nationale Supérieure d'Électrotechnique, d'Électronique, d'Informatique, d'Hydraulique et des Télécommunications
+- **Nom officiel** : École Nationale Supérieure d'Électrotechnique, d'Électronique, d'Informatique, d'Hydraulique et des Télécommunication
 - **Nom usuel** : ENSEEIHT ou « N7 »
 - **Statut** : École d'ingénieurs publique [citation:10]
 - **Fondation** : 1907 [citation:10]
