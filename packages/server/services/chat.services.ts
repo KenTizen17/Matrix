@@ -1,0 +1,97 @@
+import { conversationRepository } from '../repositories/conversation.repository';
+import OpenAI from 'openai';
+import fs from 'fs';
+import path from 'path';
+import template from '../prompt/chatbot.txt';
+
+const client = new OpenAI({
+  apiKey: process.env.ORANGEAI_API_KEY!,
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+});
+
+export class ChatService {
+  async sendMessage(prompt: string, conversationId: string) {
+    // Ensure conversation exists
+    await conversationRepository.upsertConversation(conversationId);
+
+    // Get conversation history
+    const history = await conversationRepository.getConversationHistory(conversationId, 3);
+
+    const fullPrompt = this.buildPrompt(prompt, history);
+
+    // Instructions du chatbot ( pas encore défini)
+    const Enseeiht = fs.readFileSync(path.join(__dirname, '..','prompt', 'enseeiht.md' ), 'utf-8');
+    const instructions = template.replace('{{Enseeiht}}', Enseeiht);
+
+    console.log("Full prompt:", fullPrompt);
+
+    /*
+    const response = await client.responses.create({
+      model: "gemini-2.5-flash",
+      input: fullPrompt,
+      max_output_tokens: 50000,
+    });
+
+    const outputText = response.output_text;*/
+
+    // Generate AI response
+    const response = await client.chat.completions.create({
+      model: "gemini-2.0-flash",   // modèle Gemini en version OpenAI API
+      messages: [
+        {
+          role: "assistant",
+          content: instructions // si tu veux injecter ton prompt system
+        },
+        {
+          role: "user",
+          content: fullPrompt
+        }
+      ],
+      max_tokens: 50000
+    });
+
+  // Le texte généré
+  const outputText = response.choices?.[0]?.message?.content ?? "";
+
+
+
+
+    await conversationRepository.saveMessages([
+      {
+        conversationId,
+        role: "user",
+        text: prompt
+      },
+      {
+        conversationId,
+        role: "assistant",
+        text: outputText
+      }
+    ]);
+
+    return {
+      message: outputText,
+      conversationId
+    };
+  }
+
+  private buildPrompt(prompt: string, history: any[]): string {
+    let fullPrompt = `You are having a conversation. Here is the recent conversation history, read it in reverse order:\n\n`;
+
+    if (history.length > 0) {
+      history.forEach((message) => {
+        const role = message.role === "user" ? "Human" : "Assistant";
+        fullPrompt += `${role}: ${message.text}\n`;
+      });
+      fullPrompt += `\n`;
+    }
+
+    fullPrompt += `Based on the conversation history above, respond to this new message:\n`;
+    fullPrompt += `Human: ${prompt}\n`;
+    fullPrompt += `Assistant:`;
+
+    return fullPrompt;
+  }
+}
+
+export const chatService = new ChatService();

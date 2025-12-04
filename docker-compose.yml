@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./packages/server/
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    env_file:
+      - ./packages/server/.env
+    environment:
+      DATABASE_URL: file:./dev.db
+    volumes:
+      - ./packages/server:/app
+      - sqlite_data:/app/dev.db
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./packages/client/
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  sqlite_data:
