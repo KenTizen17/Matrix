@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   backend:
     build:
@@ -8,10 +10,10 @@ services:
     env_file:
       - ./packages/server/.env
     environment:
-      DATABASE_URL: file:./dev.db
+      DATABASE_URL: file:/app/data/dev.db
     volumes:
       - ./packages/server:/app
-      - sqlite_data:/app/dev.db
+      - sqlite_data:/app/data
     ports:
       - "3000:3000"
 

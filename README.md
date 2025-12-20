@@ -1,30 +1,36 @@
 # Matrix
 
-Matrix est un **chatot open source** développé pour **l'ENSEEIHT INP**.
+Matrix est un **chatbot open source** développé pour **l'ENSEEIHT INP**.
 
 Ce projet est basé sur une architecture client-serveur.
 
 ```mermaid
 
 graph TB
-    subgraph "Frontend (Client)"
-        A[Interface Vue 3] --> B[shadCN Components]
-        B --> C[Tailwind CSS]
+    subgraph "Frontend (Client Vue 3)"
+        A[Interface Utilisateur] --> B[Appel API]
+        B --> C[Affichage Streaming]
     end
 
-    subgraph "Backend (Serveur)"
-        D[API Express] --> E[Logique Métier]
-        E --> F[Prisma ORM]
-        F --> G[(Base de Données)]
+    subgraph "Backend (Express)"
+        D[Route POST /api/chat] --> E[Controller Chat]
+        E --> F[Gestion Streaming]
+        F --> G[Appel API LLM Externe]
+        E --> H[Persistance Données]
     end
 
-    subgraph "Services Externes"
-        H[Clé API LLM] --> E
+    subgraph "Stockage"
+        I[(Fichier JSON/BD via Prisma)]
     end
 
-    A -- Requêtes HTTP --> D
-    D -- Réponses --> A
-    D -- SSE Streaming --> A
+    subgraph "API Externe"
+        J[Service LLM OpenAI/Anthropic/etc]
+    end
+
+    A -- Requête HTTP POST --> D
+    D -- Réponse Streaming Server-Sent Events --> A
+    H --> I
+    G --> J
 
 ```
 
@@ -34,7 +40,7 @@ Matrix intègre:
 - **Dark mode and responsive UI**
 - **Markdown formatting** for messages
 
-## ![alt text](<Capture d’écran du 2025-12-04 13-10-45.png>)
+## ![alt text](home.png)
 
 ## 🛠️ Stack
 

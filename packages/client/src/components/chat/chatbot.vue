@@ -72,7 +72,7 @@
   />
 
   <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
-    Réponse générées par IA, faites attention ! 
+    Réponse générées par IA, vérifiez avec vos responsables ! 
   </p>
 </div>
 
