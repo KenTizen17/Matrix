@@ -9,22 +9,22 @@ Ce projet est basé sur une architecture client-serveur.
 graph TB
     subgraph "Frontend (Client Vue 3)"
         A[Interface Utilisateur] --> B[Appel API]
-        B --> C[Affichage Streaming]
+        B --> C[Affichage Réponse]
     end
 
     subgraph "Backend (Express)"
         D[Route POST /api/chat] --> E[Controller Chat]
-        E --> F[Gestion Streaming]
+        E --> F[Gestion réponse]
         F --> G[Appel API LLM Externe]
         E --> H[Persistance Données]
     end
 
     subgraph "Stockage"
-        I[(Fichier JSON/BD via Prisma)]
+        I[(Fichier BD via Prisma)]
     end
 
     subgraph "API Externe"
-        J[Service LLM OpenAI/Anthropic/etc]
+        J[Service LLM OrangeAI]
     end
 
     A -- Requête HTTP POST --> D
