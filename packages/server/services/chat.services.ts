@@ -11,15 +11,14 @@ const client = new OpenAI({
 
 export class ChatService {
   async sendMessage(prompt: string, conversationId: string) {
-    // Ensure conversation exists
+
     await conversationRepository.upsertConversation(conversationId);
 
-    // Get conversation history
     const history = await conversationRepository.getConversationHistory(conversationId, 3);
 
     const fullPrompt = this.buildPrompt(prompt, history);
 
-    // Instructions du chatbot ( pas encore défini)
+    // Instructions du chatbot 
     const Enseeiht = fs.readFileSync(path.join(__dirname, '..','prompt', 'enseeiht.md' ), 'utf-8');
     const instructions = template.replace('{{Enseeiht}}', Enseeiht);
 
@@ -34,9 +33,9 @@ export class ChatService {
 
     const outputText = response.output_text;*/
 
-    // Generate AI response
+    // Réponse du modèle
     const response = await client.chat.completions.create({
-      model: "gemini-2.0-flash",   // modèle Gemini en version OpenAI API
+      model: "gemini-2.5-flash",   // modèle Gemini en version OpenAI API
       messages: [
         {
           role: "assistant",
