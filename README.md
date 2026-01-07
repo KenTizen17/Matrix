@@ -68,7 +68,7 @@ Le projet est fonctionnel mais n'est pas encore déployé en production (d'où l
 ### 1. Cloner le dépôt
 
 ```bash
-git clone https://github.com/your-username/matrix.git
+git clone https://github.com/KenTizen17/matrix.git
 cd matrix
 ```
 
