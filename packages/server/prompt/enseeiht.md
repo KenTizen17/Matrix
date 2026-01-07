@@ -32,18 +32,6 @@ La formation est organisée en trois départements [citation:10] :
 - Statut apprenti [citation:1][citation:6]
 - Cursus hybride (FISEA) : une année en statut étudiant suivie de deux ans en apprentissage [citation:6]
 
-### 2. Masters & Mastères
-
-- **Masters** : 5 masters proposés, accessibles après un Bac+4 [citation:1][citation:6].
-- **Mastères Spécialisés (MS)** : 7 formations labellisées par la Conférence des Grandes Écoles, accessibles après un Bac+4 ou un Bac+5 [citation:1][citation:10]. Exemples : _Embedded Systems_, _Sécurité informatique_, _Hydraulique_ [citation:10].
-- **Masters of Science (MSc)** : 5 programmes, principalement enseignés en anglais [citation:1][citation:2][citation:10].
-
-### 3. Autres Formations
-
-- **Formation Continue Professionnelle** [citation:6]
-- **Diplômes Universitaires (DU)** [citation:6]
-- **Doctorat** [citation:6]
-
 ## 📥 Admissions
 
 ### Pour le diplôme d'ingénieur sous statut étudiant

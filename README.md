@@ -36,9 +36,9 @@ graph TB
 
 Matrix intègre:
 
-- **Real-time conversation streaming**
-- **Dark mode and responsive UI**
-- **Markdown formatting** for messages
+- **Agent IA conversationel avec API key ou en Local**
+- **Dark mode et une UI responsive**
+- **Conservation de l'historique côté admin** for messages
 
 ## ![alt text](home.png)
 
@@ -46,13 +46,13 @@ Matrix intègre:
 
 **Backend:**
 
-- Node.js + Express - Serveur API
+- Express
 - **Prisma** responsable de la conservation des historiques de conversations.
 
 **Frontend:**
 
 - **Vue 3** Pour l'UI
-- **\*Tailwind CSS** - Framework CSS utilitaire
+- **Tailwind CSS** - Framework CSS utilitaire
 - **shadCN** - Composants UI
 
 **Package Manager:**
@@ -63,7 +63,7 @@ Matrix intègre:
 
 ## 💻 Démarrage Rapide (Development)
 
-Le projet est fonctionnel en développement mais n'est pas encore déployé en production (d'où la présence des fichiers Docker).
+Le projet est fonctionnel mais n'est pas encore déployé en production (d'où la présence des fichiers Docker).
 
 ### 1. Cloner le dépôt
 
@@ -83,7 +83,7 @@ cp .env.example .env
 Éditez le fichier .env pour ajouter votre clé API :
 
 ```txt
-DATABASE_URL="votre_url_de_base_de_données"
+DATABASE_URL="votre_url_de_base_de_données" Example : file:./dev.db
 API_KEY="votre_clé_api_ici"
 PORT=3000
 ```
@@ -97,6 +97,13 @@ bun install
 # Ou dans chaque package séparément
 cd packages/server && bun install
 cd packages/client && bun install
+
+# Installer prisma
+bun install @prisma/client@6
+bun install -D prisma@6
+
+# Regenerer la DB
+bun prisma generate
 ```
 
 ### 4. Lancer le serveur de développement
@@ -114,3 +121,7 @@ bun run dev
 cd packages/client
 bun run dev
 ```
+
+### 5. Les Infos de l'école
+
+retrouvez les infos de l'école dans le fichier `packages/server/prompt/enseeiht.md`
